@@ -1,3 +1,4 @@
+import os
 import pytesseract
 from flask import Flask, request, jsonify
 from PIL import Image
@@ -6,7 +7,7 @@ from io import BytesIO
 
 app = Flask(__name__)
 
-# מיקום Tesseract ב-Render
+# מיקום Tesseract בסביבה
 pytesseract.pytesseract.tesseract_cmd = '/usr/bin/tesseract'
 
 
@@ -27,6 +28,7 @@ def extract_text():
     # הורדת התמונה מה-URL
     try:
         response = requests.get(image_url)
+        response.raise_for_status()  # בדיקה אם יש שגיאה ב-HTTP
         img = Image.open(BytesIO(response.content))
     except Exception as e:
         return jsonify({"error": f"Failed to fetch the image: {str(e)}"}), 500
@@ -40,4 +42,6 @@ def extract_text():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # מקבל את הפורט ממערכת ההפעלה, עם ברירת מחדל ל-5000
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port, debug=True)
