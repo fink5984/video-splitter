@@ -1,3 +1,4 @@
 flask
-moviepy
-youtube-dl
+pillow
+pytesseract
+requests
