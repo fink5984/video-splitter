@@ -1,2 +1,1 @@
-web: python app.py
-apt-get update && apt-get install -y tesseract-ocr
+web: bash build.sh && python app.py
