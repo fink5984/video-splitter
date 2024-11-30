@@ -35,7 +35,7 @@ def extract_text():
 
     # שימוש ב-Tesseract להמיר את התמונה לטקסט
     try:
-        text = pytesseract.image_to_string(img, lang='eng+heb')  # תומך באנגלית ועברית
+        text = pytesseract.image_to_string(img, lang='heb')  # תומך באנגלית ועברית
         return jsonify({"text": text}), 200
     except Exception as e:
         return jsonify({"error": f"Failed to extract text: {str(e)}"}), 500
